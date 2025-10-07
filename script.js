@@ -34,4 +34,32 @@
       ex2_content.textContent = "Numer telefonu jest poprawny";
     }
   });
+  const element = document.getElementById('ex3_element');
+  const containerOne = document.getElementById('ex3_one');
+  const containerTwo = document.getElementById('ex3_two');
+
+  // Ustawiamy dane przy rozpoczęciu przeciągania
+  element.addEventListener('dragstart', function(e) {
+    e.dataTransfer.setData('text/plain', 'ex3_element');
+  });
+
+  // Funkcja pomocnicza: umożliwia upuszczenie
+  function allowDrop(e) {
+    e.preventDefault();
+  }
+
+  // Obsługa drop dla obu kontenerów
+  function handleDrop(e) {
+    e.preventDefault();
+    const data = e.dataTransfer.getData('text/plain');
+    const draggedElement = document.getElementById(data);
+    e.currentTarget.appendChild(draggedElement);
+  }
+
+  // Dodajemy eventy do obu kontenerów
+  [containerOne, containerTwo].forEach(container => {
+    container.addEventListener('dragover', allowDrop);
+    container.addEventListener('drop', handleDrop);
+  });
+
 })();
