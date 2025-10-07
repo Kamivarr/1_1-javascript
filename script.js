@@ -1,64 +1,65 @@
 (function() {
-  // Pobieramy przycisk i element, w którym wyświetlimy liczby
-  var ex1_button = document.getElementById('ex1_button');
-  var ex1_content = document.getElementById('ex1_content');
+  // ==============================
+  // Ex1 – Liczby od 0 do 9 po kliknięciu
+  // ==============================
+  const ex1_button = document.getElementById('ex1_button');
+  const ex1_content = document.getElementById('ex1_content');
 
-  // Przypisujemy funkcję do zdarzenia onclick
-  ex1_button.onclick = function() {
-    var tabela = [];
-
-    // Generujemy liczby od 0 do 9
-    for (var i = 0; i <= 9; i++) {
-      tabela.push(i);
-    }
-
-    // Wyświetlamy liczby jako ciąg znaków oddzielony przecinkami
-    ex1_content.innerHTML = tabela.toString();
-
-
+  if (ex1_button && ex1_content) {
+    ex1_button.addEventListener('click', () => {
+      const numbers = Array.from({ length: 10 }, (_, i) => i);
+      ex1_content.textContent = numbers.join(', ');
+    });
   }
+
+  // ==============================
+  // Ex2 – Walidacja numeru telefonu
+  // ==============================
   const ex2_text = document.getElementById('ex2_text');
   const ex2_content = document.getElementById('ex2_content');
 
-  ex2_text.addEventListener('input', function() {
-    const value = ex2_text.value;
+  if (ex2_text && ex2_content) {
+    ex2_text.addEventListener('input', () => {
+      const value = ex2_text.value;
 
-    // Kolejność walidacji:
-    if (/[a-zA-Z]/.test(value)) {
-      ex2_content.textContent = "Numer nie może zawierać liter";
-    } else if (/[^0-9]/.test(value)) {
-      ex2_content.textContent = "Numer nie może zawierać znaków specjalnych";
-    } else if (value.length !== 9) {
-      ex2_content.textContent = "Długość numeru musi być równa 9";
-    } else {
-      ex2_content.textContent = "Numer telefonu jest poprawny";
-    }
-  });
-  const element = document.getElementById('ex3_element');
+      if (/[a-zA-Z]/.test(value)) {
+        ex2_content.textContent = "Numer nie może zawierać liter";
+      } else if (/[^0-9]/.test(value)) {
+        ex2_content.textContent = "Numer nie może zawierać znaków specjalnych";
+      } else if (value.length !== 9) {
+        ex2_content.textContent = "Długość numeru musi być równa 9";
+      } else {
+        ex2_content.textContent = "Numer telefonu jest poprawny";
+      }
+    });
+  }
+
+  // ==============================
+  // Ex3 – Drag & Drop (dwukierunkowy)
+  // ==============================
+  const ex3_element = document.getElementById('ex3_element');
   const containerOne = document.getElementById('ex3_one');
   const containerTwo = document.getElementById('ex3_two');
 
-  // Rozpoczynamy przeciąganie – zapisujemy ID elementu
-  element.addEventListener('dragstart', function(e) {
-    e.dataTransfer.setData('text/plain', element.id);
-  });
+  if (ex3_element && containerOne && containerTwo) {
+    ex3_element.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', ex3_element.id);
+    });
 
-  // Pozwalamy na przeciągnięcie
-  function allowDrop(e) {
-    e.preventDefault();
+    const allowDrop = (e) => e.preventDefault();
+
+    const handleDrop = (e) => {
+      e.preventDefault();
+      const id = e.dataTransfer.getData('text/plain');
+      const dragged = document.getElementById(id);
+      if (dragged) {
+        e.currentTarget.appendChild(dragged);
+      }
+    };
+
+    [containerOne, containerTwo].forEach(container => {
+      container.addEventListener('dragover', allowDrop);
+      container.addEventListener('drop', handleDrop);
+    });
   }
-
-  // Obsługa upuszczenia elementu do kontenera
-  function handleDrop(e) {
-    e.preventDefault();
-    const data = e.dataTransfer.getData('text/plain');
-    const draggedElement = document.getElementById(data);
-    e.currentTarget.appendChild(draggedElement);
-  }
-
-  // Dodajemy zdarzenia do obu kontenerów
-  [containerOne, containerTwo].forEach(container => {
-    container.addEventListener('dragover', allowDrop);
-    container.addEventListener('drop', handleDrop);
-  });
 })();
