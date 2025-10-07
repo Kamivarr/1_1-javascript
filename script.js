@@ -38,17 +38,17 @@
   const containerOne = document.getElementById('ex3_one');
   const containerTwo = document.getElementById('ex3_two');
 
-  // Ustawiamy dane przy rozpoczęciu przeciągania
+  // Rozpoczynamy przeciąganie – zapisujemy ID elementu
   element.addEventListener('dragstart', function(e) {
-    e.dataTransfer.setData('text/plain', 'ex3_element');
+    e.dataTransfer.setData('text/plain', element.id);
   });
 
-  // Funkcja pomocnicza: umożliwia upuszczenie
+  // Pozwalamy na przeciągnięcie
   function allowDrop(e) {
     e.preventDefault();
   }
 
-  // Obsługa drop dla obu kontenerów
+  // Obsługa upuszczenia elementu do kontenera
   function handleDrop(e) {
     e.preventDefault();
     const data = e.dataTransfer.getData('text/plain');
@@ -56,10 +56,9 @@
     e.currentTarget.appendChild(draggedElement);
   }
 
-  // Dodajemy eventy do obu kontenerów
+  // Dodajemy zdarzenia do obu kontenerów
   [containerOne, containerTwo].forEach(container => {
     container.addEventListener('dragover', allowDrop);
     container.addEventListener('drop', handleDrop);
   });
-
 })();
