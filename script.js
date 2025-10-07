@@ -37,6 +37,7 @@
   // ==============================
   // Ex3 – Drag & Drop (dwukierunkowy)
   // ==============================
+
   const ex3_element = document.getElementById('ex3_element');
   const containerOne = document.getElementById('ex3_one');
   const containerTwo = document.getElementById('ex3_two');
